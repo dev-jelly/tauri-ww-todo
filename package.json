@@ -11,6 +11,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@neodrag/svelte": "^1.2.4",
     "@tauri-apps/api": "^1.1.0",
     "flowbite": "^1.5.4"
   },
