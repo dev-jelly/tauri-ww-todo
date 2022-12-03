@@ -37,11 +37,10 @@
     hovering = null
   }
 
-  const dragstart = (event, i) => {
+  const dragstart = (event, index) => {
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.dropEffect = 'move';
-    const start = i;
-    event.dataTransfer.setData('text/plain', start);
+    event.dataTransfer.setData('text/plain', index);
   }
 
   $: currentTodos = $tabManager.tabs[$tabManager.tabIndex].todos
