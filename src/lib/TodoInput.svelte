@@ -4,8 +4,6 @@
   let todoTitle = "";
   let addButton;
   const onSubmit = (e) => {
-    console.log("tabManager", tabManager);
-
     e.preventDefault();
     addTodo();
     return true;

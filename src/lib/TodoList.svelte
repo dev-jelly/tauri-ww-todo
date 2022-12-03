@@ -11,7 +11,7 @@
     const {tabs, tabIndex} = tabManager.get();
     const newTodos = tabs[tabIndex].todos;
 
-    if(Number.isNaN(start)) return;
+    if (Number.isNaN(start)) return;
 
     if (start < target) {
       tabManager.update((tm) => {
@@ -42,30 +42,25 @@
     event.dataTransfer.dropEffect = 'move';
     const start = i;
     event.dataTransfer.setData('text/plain', start);
-    console.log(start);
   }
 
-
+  $: currentTodos = $tabManager.tabs[$tabManager.tabIndex].todos
 </script>
 
 <ul class="w-full mx-2 md:w-2/3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-  {#each $tabManager.tabs as tab, index (tab.id)}
-    {#if $tabManager.tabIndex === index}
-      {#each tab.todos as todo, index (todo)}
-        <li draggable="true"
-            class="rounded-t-lg border-b border-gray-200 dark:border-gray-600"
-            animate:flip={{duration: 300}} on:dragstart={event => dragstart(event, index)}
-            on:drop|preventDefault={event => drop(event, index)}
-            on:dragover|preventDefault={() => false}
-            on:dragenter={() => hovering = index}
-            class:opacity-40={hovering === index}
-            class:bg-gray-800={hovering === index}
-            data-index="{index}">
+  {#each currentTodos as todo, index (todo)}
+    <li draggable="true"
+        class="rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+        animate:flip={{duration: 300}} on:dragstart={event => dragstart(event, index)}
+        on:drop|preventDefault={event => drop(event, index)}
+        on:dragover|preventDefault={() => false}
+        on:dragenter={() => hovering = index}
+        class:opacity-40={hovering === index}
+        class:bg-gray-800={hovering === index}
+        data-index="{index}">
 
-          <TodoItem
-              id={todo.id} index={index} todoTitle={todo.text} done={todo.done}/>
-        </li>
-      {/each}
-    {/if}
+      <TodoItem
+          id={todo.id} index={index} todoTitle={todo.text} done={todo.done}/>
+    </li>
   {/each}
 </ul>

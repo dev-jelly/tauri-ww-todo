@@ -8,7 +8,6 @@ export function storable<T>(key: string, data: T) {
   localStorage[key] &&
   set(JSON.parse(localStorage[key]));
 
-  console.log(key, data);
 
   return {
     get: () => get(store),

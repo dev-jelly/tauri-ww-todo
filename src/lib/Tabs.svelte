@@ -4,8 +4,6 @@
   const tm = tabManager;
 
   const setTab = (tabIndex: number) => {
-    console.log(tabIndex)
-
     tm.set({
       ...tm.get(),
       tabIndex
