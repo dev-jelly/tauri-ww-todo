@@ -1,26 +1,35 @@
 <script lang="ts">
-  import {todos} from "./store/todos.ts";
+  import {tabManager} from "./store/todos.ts";
+
   let todoTitle = "";
   let addButton;
   const onSubmit = (e) => {
+    console.log("tabManager", tabManager);
+
     e.preventDefault();
     addTodo();
     return true;
   };
 
   const addTodo = () => {
-    if(!todoTitle) return;
+    if (!todoTitle) return;
     setTimeout(() => addButton.blur(), 300);
-    todos.update((todos) => {
-      todos = [{id: `${Date.now()}-${Math.floor(Math.random() * 1000000)}`, text: todoTitle, done: false} , ...todos];
-      todoTitle= "";
-      return todos;
+    tabManager.update((tm) => {
+      const todos = tm.tabs[tm.tabIndex].todos;
+      tm.tabs[tm.tabIndex].todos = [{
+        id: `${Date.now()}-${Math.floor(Math.random() * 1000000)}`,
+        text: todoTitle,
+        done: false
+      }, ...todos];
+      todoTitle = "";
+      return tm;
     });
   };
 </script>
 
 <form class="w-2/3" on:submit={onSubmit}>
-  <label for="todo" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Something To Do...</label>
+  <label for="todo" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+         on:drop|preventDefault={() => false}>Something To Do...</label>
   <div class="relative w-full">
     <input type="search" id="todo"
            bind:value={todoTitle}

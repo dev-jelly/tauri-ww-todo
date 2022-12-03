@@ -1,24 +1,25 @@
 import {get, writable} from 'svelte/store'
 
-export function storable<T>(data) {
+export function storable<T>(key: string, data: T) {
   const store = writable<T>(data);
   const { subscribe, set, update } = store;
   const isBrowser = typeof window !== 'undefined';
-
   isBrowser &&
-  localStorage.storable &&
-  set(JSON.parse(localStorage.storable));
+  localStorage[key] &&
+  set(JSON.parse(localStorage[key]));
+
+  console.log(key, data);
 
   return {
+    get: () => get(store),
     subscribe,
     set: n => {
-      isBrowser && (localStorage.storable = JSON.stringify(n));
+      isBrowser && (localStorage[key] = JSON.stringify(n));
       set(n);
     },
     update: cb => {
       const updatedStore = cb(get(store));
-
-      isBrowser && (localStorage.storable = JSON.stringify(updatedStore));
+      isBrowser && (localStorage[key] = JSON.stringify(updatedStore));
       set(updatedStore);
     }
   };

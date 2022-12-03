@@ -58,6 +58,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
+        "fileDropEnabled": false,
         "title": "ww-todo",
         "width": 800
       }

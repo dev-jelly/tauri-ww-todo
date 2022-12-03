@@ -13,7 +13,8 @@
   "dependencies": {
     "@neodrag/svelte": "^1.2.4",
     "@tauri-apps/api": "^1.1.0",
-    "flowbite": "^1.5.4"
+    "flowbite": "^1.5.4",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.1",

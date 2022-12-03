@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {todos} from './store/todos';
+  import {tabManager} from './store/todos';
 
   export let id: number;
   export let todoTitle: string;
@@ -11,18 +11,20 @@
   const toggleDone = (e) => {
     done = !done;
     checkbox.focus();
-    todos.update((todos) => {
-      const index = todos.findIndex((t) => t.id === id);
+    tabManager.update((tm) => {
+      const index = tm.tabs[tm.tabIndex].todos.findIndex((t) => t.id === id);
       if (index !== -1) {
-        todos[index].done = done;
+        tm[index].done = done;
       }
-      return todos;
+      return tm;
     });
   }
 
   const onClickDelete = () => {
-    todos.update((todos) => {
-      return todos.filter((t) => t.id !== id);
+    tabManager.update((tm) => {
+      const todos =  tm.tabs[tm.tabIndex].todos;
+      tm.tabs[tm.tabIndex].todos = todos.filter((t) => t.id !== id);
+      return tm;
     });
   }
 
