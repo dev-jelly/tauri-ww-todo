@@ -10,6 +10,7 @@
   };
 
   const addTodo = () => {
+    todoTitle = todoTitle.trim();
     if (!todoTitle) return;
     setTimeout(() => addButton.blur(), 300);
     tabManager.update((tm) => {
