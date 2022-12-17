@@ -2,8 +2,9 @@ import {get, writable} from 'svelte/store'
 
 export function storable<T>(key: string, data: T) {
   const store = writable<T>(data);
-  const { subscribe, set, update } = store;
+  const { subscribe, set } = store;
   const isBrowser = typeof window !== 'undefined';
+
   isBrowser &&
   localStorage[key] &&
   set(JSON.parse(localStorage[key]));
