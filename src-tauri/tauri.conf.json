@@ -53,11 +53,12 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "width": 1024,
+        "height": 768,
         "resizable": true,
         "fileDropEnabled": false,
-        "title": "ww-todo",
-        "width": 800
+        "title": "ww-todo"
+
       }
     ]
   }
