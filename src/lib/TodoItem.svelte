@@ -14,9 +14,9 @@
     tabManager.update((tm) => {
       const index = tm.tabs[tm.tabIndex].todos.findIndex((t) => t.id === id);
       if (index !== -1) {
-        tm[index].done = done;
+        tm.tabs[tm.tabIndex].todos[index].done = done;
       }
-      return tm;
+      return {...tm};
     });
   }
 
