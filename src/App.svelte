@@ -1,8 +1,8 @@
 <script lang="ts">
-  import TodoInput from "./lib/TodoInput.svelte";
-  import TodoList from "./lib/TodoList.svelte";
-  import Tabs from "./lib/Tabs.svelte";
-  import TabTitle from "./lib/TabTitle.svelte";
+  import TodoInput from "./view/todos/TodoInput.svelte";
+  import TodoList from "./view/todos/TodoList.svelte";
+  import Tabs from "./view/tab/Tabs.svelte";
+  import TabTitle from "./view/tab/TabTitle.svelte";
   import {tabManager} from "./lib/store/todos";
   $: tabIndex = $tabManager.tabIndex;
 </script>

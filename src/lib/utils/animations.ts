@@ -14,16 +14,8 @@ export function easeOutBounce(x: number): number {
   }
 }
 
-export function easeInOutBounce(x: number): number {
-  return x < 0.5
-    ? (1 - easeOutBounce(1 - 2 * x)) / 2
-    : (1 + easeOutBounce(2 * x - 1)) / 2;
-}
-export function bounceBounce(x: number): number {
-  return easeInOutBounce(x) * easeOutBounce(x) * easeOutBounce(x) * easeOutBounce(x) * easeOutBounce(x) * easeOutBounce(x) * easeOutBounce(x);
-}
 
 export const animation = {
   duration: 1500,
-  easing: bounceBounce
+  easing: easeOutBounce
 };

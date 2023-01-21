@@ -1,8 +1,8 @@
 <script lang="ts">
-  import {tabManager} from "./store/todos";
+  import {tabManager} from "../../lib/store/todos";
   import {confirm} from '@tauri-apps/api/dialog';
   import {tweened} from "svelte/motion";
-  import {animation} from "./utils/animations";
+  import {animation} from "../../lib/utils/animations";
 
   const tm = tabManager;
 
@@ -43,15 +43,7 @@
     }
   };
 
-  function customEasing2(t) {
-    let p = t;
-    if (Math.random() > 0.5) {
-      p -= 0.01;
-    } else {
-      p += 0.02;
-    }
-    return Math.abs(Math.cos(p * Math.PI));
-  }
+
 
 
   const tabsWidth = tweened(16, animation);
@@ -89,7 +81,6 @@
 
 
 <aside bind:this={tabs} class="w-64 h-screen hover:w-64 group/tabs" aria-label="Sidebar" id="tab-side-bar"
-
        on:mouseover={onMouseOverTabs}
        on:mouseout={onMouseLeaveTabs}
 >
@@ -114,7 +105,6 @@
         </li>
       {/each}
     </ul>
-
       <form class="flex justify-center w-full h-10 my-2 group-hover/tabs:block" class:hidden={!isOpen}>
         <button type="submit"
                 on:click|preventDefault={addTab}
@@ -123,10 +113,5 @@
           +
         </button>
       </form>
-
   </div>
 </aside>
-
-<style>
-
-</style>

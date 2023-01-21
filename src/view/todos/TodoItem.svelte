@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {tabManager} from './store/todos';
+  import {tabManager} from '../../lib/store/todos';
 
   export let id: number;
   export let todoTitle: string;

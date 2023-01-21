@@ -1,6 +1,6 @@
 <script lang="ts">
   import TodoItem from './TodoItem.svelte'
-  import {tabManager} from './store/todos'
+  import {tabManager} from '../../lib/store/todos'
   import {flip} from 'svelte/animate';
 
   let hovering = false;

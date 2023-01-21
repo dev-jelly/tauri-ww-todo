@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {tabManager} from "./store/todos";
+  import {tabManager} from "../../lib/store/todos";
   import {afterUpdate} from "svelte";
   export let tabIndex: number;
 

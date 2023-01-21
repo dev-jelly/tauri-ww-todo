@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {tabManager} from "./store/todos.ts";
+  import {tabManager} from "../../lib/store/todos.ts";
 
   let todoTitle = "";
   let addButton;
