@@ -10,8 +10,11 @@
     const start = parseInt(event.dataTransfer.getData("text/plain"));
     const {tabs, tabIndex} = tabManager.get();
     const newTodos = tabs[tabIndex].todos;
-
-    if (Number.isNaN(start)) return;
+    console.info(start)
+    if (Number.isNaN(start)){
+      console.log(start)
+      return;
+    }
 
     if (start < target) {
       tabManager.update((tm) => {
@@ -54,6 +57,7 @@
         on:drop|preventDefault={event => drop(event, index)}
         on:dragover|preventDefault={() => false}
         on:dragenter={() => hovering = index}
+        on:dragend={() => hovering = false}
         class:opacity-40={hovering === index}
         class:bg-gray-800={hovering === index}
         data-index="{index}">
