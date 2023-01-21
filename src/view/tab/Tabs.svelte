@@ -84,9 +84,9 @@
        on:mouseover={onMouseOverTabs}
        on:mouseout={onMouseLeaveTabs}
 >
-  <div class="overflow-y-auto py-4 px-3 bg-gray-500 rounded-md dark:bg-gray-800 h-full">
-    <div class="w-full flex justify-end ">
-      <button bind:this={arrow} on:click={toggleOpen} class="px-2">{"<-"}</button>
+  <div class="overflow-y-auto py-4 px-3 bg-gray-500 text-white rounded-r-md dark:bg-gray-800 h-full">
+    <div class="w-full flex justify-end">
+      <button bind:this={arrow} on:click={toggleOpen} class="px-3 py-0.25 rounded-xl bg-gray-600">{"<-"}</button>
     </div>
     <ul class="space-y-2" class:opacity-0={$tabsWidth < 6} class:opacity-100={mouseHover || isOpen}>
       {#each $tm.tabs as tab, index (tab.id)}
@@ -94,13 +94,13 @@
           {#if $tm.tabs.length > 1}
             <button
               on:click|stopPropagation={() => removeTab(index)}
-              class="text-black dark:text-white absolute w-6 pr-6 pb-2.5 leading-6 bg-gray-50 group-hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-lg px-4 py-1 dark:bg-gray-800 dark:group-hover:bg-gray-800 dark:hover:group-hover:bg-gray-900 dark:focus:ring-blue-800 right-1 bottom-1 top-1 opacity-0 group-hover:opacity-40 ">
+              class="text-black dark:text-white absolute w-6 pr-6 pb-2.5 leading-6 bg-gray-300 group-hover:bg-gray-200 group-hover:hover:bg-gray-100 group-hover:text-black group-hover:dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-lg px-4 py-1 dark:bg-gray-800 dark:group-hover:bg-gray-800 dark:hover:group-hover:bg-gray-900 dark:focus:ring-blue-800 right-1 bottom-1 top-1 opacity-0 group-hover:opacity-100 z-20">
               -
             </button>
           {/if}
           <a href="#"
-             class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white group-hover:bg-gray-100 dark:group-hover:bg-gray-700">
-            <span class="ml-3">{tab.title}</span>
+             class="flex max-w-full w-full items-center p-2 text-base font-normal  rounded-lg dark:text-white group-hover:bg-gray-800 dark:group-hover:bg-gray-700 text-white truncate group-hover:text-white text-white">
+            <span class="ml-3 overflow-hidden">{tab.title}</span>
           </a>
         </li>
       {/each}

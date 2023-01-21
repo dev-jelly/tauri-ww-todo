@@ -26,7 +26,7 @@
   }
 
   const applyTitle = () => {
-    if (inputTitle) {
+    if (input.value) {
       $tabManager.tabs[tabIndex].title = input.value;
     } else {
       inputTitle = $tabManager.tabs[tabIndex].title;
@@ -37,7 +37,7 @@
 
 {#if editMode}
     <div class="w-2/3 p-8 w-full">
-        <input class="w-full text-center bg-gray-900 rounded-md dark:bg-gray-900 text-3xl font-bold outline-none underline underline-offset-2"
+        <input class="w-full text-center rounded-md text-3xl font-bold outline-none underline underline-offset-2 bg-transparent "
                bind:this={input}
                value={inputTitle}
                on:keypress={onEnter} on:blur={applyTitle}/>
