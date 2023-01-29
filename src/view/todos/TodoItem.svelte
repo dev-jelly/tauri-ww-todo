@@ -36,16 +36,16 @@
 </script>
 
 <div
-    class="w-full"
+    class="w-full  cursor-pointer"
     on:click|preventDefault={toggleDone}>
-  <div class="flex relative items-center pl-3">
+  <div class="flex relative items-center pl-3 cursor-pointer">
     <input id="todo-checkbox-{id}" type="checkbox"
            bind:this={checkbox}
            bind:checked={done}
            on:click|stopPropagation={toggleDone}
            on:focus={focus}
-           class="w-4 h-4 text-gray-500 bg-gray-100 rounded border-gray-900 focus:ring-gray-400 dark:focus:ring-gray-500 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-900">
-    <label for="todo-checkbox-{id}" class="py-3 ml-2 w-full text-md font-medium text-gray-900 dark:text-gray-300 "
+           class="w-4 h-4 text-gray-500 bg-gray-100 rounded border-gray-900 focus:ring-gray-400 dark:focus:ring-gray-500 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-900 ">
+    <label for="todo-checkbox-{id}" class="py-3 ml-2 w-full text-md font-medium text-gray-900 dark:text-gray-300 overflow-ellipsis overflow-hidden pr-6  cursor-pointer"
            class:line-through={done} class:text-gray-500={done}>{todoTitle}</label>
     <button
         on:click={onClickDelete}
