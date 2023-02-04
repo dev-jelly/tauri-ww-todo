@@ -26,8 +26,8 @@
   };
 </script>
 
-<form class="w-2/3" on:submit={onSubmit}>
-  <label for="todo" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+<form class="w-full md:w-2/3" on:submit={onSubmit}>
+  <label for="todo" class="mb-2  text-sm font-medium text-gray-900 sr-only dark:text-white"
          >Something To Do...</label>
   <div class="relative w-full">
     <input type="search" id="todo"

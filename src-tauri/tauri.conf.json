@@ -12,8 +12,12 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true
+      "all": true,
+      "clipboard": {
+        "writeText": true
+      }
     },
+
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
@@ -55,6 +59,8 @@
         "fullscreen": false,
         "width": 1024,
         "height": 768,
+        "minWidth": 640,
+        "minHeight": 480,
         "resizable": true,
         "fileDropEnabled": false,
         "title": "초코야 투두"

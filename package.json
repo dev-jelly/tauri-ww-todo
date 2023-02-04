@@ -23,6 +23,8 @@
     "@types/node": "^18.7.10",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",
+    "prettier": "^2.8.3",
+    "prettier-plugin-tailwindcss": "^0.2.2",
     "svelte": "^3.49.0",
     "svelte-check": "^2.8.0",
     "svelte-preprocess": "^4.10.7",
