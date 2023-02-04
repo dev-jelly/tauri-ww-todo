@@ -7,7 +7,7 @@
   };
 
 </script>
-<div class="-z-10 fixed top-8 " class:z-30={open}>
+<div class="-z-10 fixed top-4 right-8" class:z-30={open}>
   {#if open}
     <div id="toast-default"
          class="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 w-48"
