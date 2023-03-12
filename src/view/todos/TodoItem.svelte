@@ -53,7 +53,7 @@
       const tabIndex = tm.tabIndex;
       const todoIndex = tm.tabs[tabIndex].todos.findIndex(t => t.id == id);
       tm.tabs[tabIndex].todos[todoIndex].text = editTitle.value;
-      console.log(editTitle.value, tabIndex, todoIndex)
+      console.log(editTitle.value, tabIndex, todoIndex);
       tm.tabs[tabIndex].todos = [...tm.tabs[tabIndex].todos];
       tm.tabs = [...tm.tabs];
       console.log(tm);
@@ -66,6 +66,77 @@
     editTitle.focus();
   };
 
+  const accentColor = "text-purple-800 dark:text-yellow-400";
+
+  const htmlTitle = (title= todoTitle, tagStack: string[] = []) => {
+    const strongIndex = title.indexOf("**");
+    const colorIndex = title.indexOf("!!");
+    if(tagStack.length === 0 && strongIndex === -1 && colorIndex === -1) {
+      return title;
+    }
+    const [index, char] = getFirstSpecialChar(title);
+
+    if(index === -1 && tagStack.length === 0) {
+      return title;
+    }
+
+    if(index === -1) {
+      while(tagStack.length > 0) {
+        const tag = tagStack.pop();
+        title += `</${tag}>`;
+      }
+    }
+
+    if(tagStack.length > 0) {
+      const lastTag = last(tagStack);
+      if(lastTag === "strong" && char === "**") {
+        tagStack.pop();
+        title = title.replace("**", "</strong>");
+      } else if(lastTag === "span" && char === "!!") {
+        tagStack.pop();
+        title = title.replace("!!", "</span>");
+      } else if(char === "**" && tagStack.includes("**")) {
+        title = title.replace("**", `</strong></span><span class="${accentColor}">`);
+      } else if(char === "!!" && tagStack.includes("!!")) {
+        title = title.replace("!!", "</span></strong><strong style='font-weight: 900'>");
+      } else if(char === "**") {
+        tagStack.push("strong");
+        title = title.replace("**", "<strong style='font-weight: 900'>");
+      } else if(char === "!!") {
+        tagStack.push("span");
+        title = title.replace("!!", `<span class="${accentColor}">`);
+      }
+    } else {
+      if(char === "**") {
+        tagStack.push("strong");
+        title = title.replace("**", "<strong style='font-weight: 900'>");
+      } else if(char === "!!") {
+        tagStack.push("span");
+        title = title.replace("!!", `<span class="${accentColor}">`);
+      }
+    }
+    return htmlTitle(title, tagStack);
+  }
+
+  const last = (arr: string[]) => arr[arr.length - 1];
+
+  const getFirstSpecialChar = (text: string): [number, string] => {
+    const strongIndex = text.indexOf("**");
+    const colorIndex = text.indexOf("!!");
+    if(strongIndex === -1 && colorIndex === -1) {
+      return [-1, ""];
+    }
+    if(strongIndex === -1) {
+      return [colorIndex, "!!"];
+    }
+    if(colorIndex === -1) {
+      return [strongIndex, "**"];
+    }
+    return strongIndex < colorIndex ? [strongIndex, "**"] : [colorIndex, "!!"];
+
+  }
+
+  const html = htmlTitle()
 
 </script>
 
@@ -84,22 +155,21 @@
            on:contextmenu|stopPropagation={onCopy}
            class="w-4 h-4 text-gray-500 bg-gray-100 rounded border-gray-900 focus:ring-gray-400 dark:focus:ring-gray-500 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-900 ">
 
-      <input bind:this={editTitle} type="text" on:click|stopPropagation bind:value={todoTitle}
-             class:hidden={!editMode}
-             on:blur={() => editMode = false}
-             on:keypress|stopPropagation={(e) => {
+    <input bind:this={editTitle} type="text" on:click|stopPropagation bind:value={todoTitle}
+           class:hidden={!editMode}
+           on:blur={() => editMode = false}
+           on:keypress|stopPropagation={(e) => {
         if (e.key === "Enter") {
           onUpdateTitle(id);
           editMode = false;
-
         }
       }}
-             class="ml-2 h-11 text-gray-200 bg-gray-100 rounded border-gray-900  focus:ring-2  p-2 dark:bg-gray-600 dark:border-gray-900 w-full" />
+           class="ml-2 h-11 text-gray-200 bg-gray-100 rounded border-gray-900  focus:ring-2  p-2 dark:bg-gray-600 dark:border-gray-900 w-full" />
 
-      <label on:dblclick|stopPropagation={onClickUpdate} for="todo-checkbox-{id}"
-             class:hidden={editMode}
-             class="py-3 ml-2 w-full text-md font-medium text-gray-900 dark:text-gray-300 overflow-ellipsis overflow-hidden pr-6 cursor-pointer"
-             class:line-through={done} class:text-gray-500={done}>{todoTitle}</label>
+    <label on:dblclick|stopPropagation={onClickUpdate} for="todo-checkbox-{id}"
+           class:hidden={editMode}
+           class="py-3 ml-2 w-full text-md font-medium text-gray-900 dark:text-gray-300 overflow-ellipsis overflow-hidden pr-6 cursor-pointer"
+           class:line-through={done} class:text-gray-500={done}>{@html html}</label>
 
     <button
       on:click={onClickDelete}
