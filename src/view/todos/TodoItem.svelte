@@ -15,7 +15,7 @@
   let editTitle;
 
 
-  const toggleDone = (e) => {
+  const toggleDone = () => {
     done = !done;
     checkbox.focus();
     tabManager.update((tm) => {
@@ -51,12 +51,10 @@
   const onUpdateTitle = (id: string) => {
     tabManager.update((tm) => {
       const tabIndex = tm.tabIndex;
-      const todoIndex = tm.tabs[tabIndex].todos.findIndex(t => t.id == id);
+      const todoIndex = tm.tabs[tabIndex].todos.findIndex(t => t.id === id);
       tm.tabs[tabIndex].todos[todoIndex].text = editTitle.value;
-      console.log(editTitle.value, tabIndex, todoIndex);
       tm.tabs[tabIndex].todos = [...tm.tabs[tabIndex].todos];
       tm.tabs = [...tm.tabs];
-      console.log(tm);
       return { ...tm };
     });
   };
@@ -136,7 +134,10 @@
 
   }
 
-  const html = htmlTitle()
+  let html;
+  $: {
+    html = htmlTitle(todoTitle || "");
+  }
 
 </script>
 
