@@ -4,14 +4,15 @@
 
 ## 준비사항
 - Node.js
+- pnpm
 - Rust
 
 ## 빌드 및 설치
 프로젝트를 클론한 뒤 프로젝트 폴더로 이동하여 다음 명령어들을 수행합니다.
 ```
 git pull
-npm install
-npm tauri build
+pnpm install
+pnpm tauri build
 ```
 
 ### Windows (작성중)
