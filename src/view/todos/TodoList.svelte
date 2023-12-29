@@ -3,7 +3,7 @@
   import {tabManager} from '../../lib/store/todos'
   import {flip} from 'svelte/animate';
 
-  let hovering = false;
+  let hovering: number | boolean = false;
 
   const drop = (event, target) => {
     event.dataTransfer.dropEffect = 'move';
@@ -37,7 +37,7 @@
         return tm;
       });
     }
-    hovering = null
+    hovering = false
   }
 
   const dragstart = (event, index) => {
