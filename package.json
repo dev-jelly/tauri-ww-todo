@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
-    "@tauri-apps/cli": "^1.1.0",
+    "@tauri-apps/cli": "^1.6.3",
     "@tsconfig/svelte": "^3.0.0",
     "@types/node": "^18.7.10",
     "autoprefixer": "^10.4.13",
@@ -32,5 +32,6 @@
     "tslib": "^2.4.0",
     "typescript": "^4.6.4",
     "vite": "^3.0.2"
-  }
+  },
+  "packageManager": "pnpm@8.6.1+sha512.3f9e23f20bdbf7a27b87b804383f1dafdb5cb35cdc40fce590aff2215255446ff595878ee4f33429e6a0e7c3882b1ae926514f6fea6a5ba75e52f87bfc2592e7"
 }

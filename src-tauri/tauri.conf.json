@@ -30,7 +30,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.ww.todo",
+      "identifier": "zcom.ww.todo",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
