@@ -1,0 +1,175 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tauri-ww-todo
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: api-secrets
+  namespace: tauri-ww-todo
+type: Opaque
+stringData:
+  POSTGRES_PASSWORD: "examplepass"
+  JWT_SECRET: "devsecret"
+  DATABASE_URL: "postgresql://postgres:examplepass@postgres:5432/todo?schema=public"
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: tauri-ww-todo
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: api-secrets
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          value: todo
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: tauri-ww-todo
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: postgres
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-api
+  namespace: tauri-ww-todo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-api
+  template:
+    metadata:
+      labels:
+        app: todo-api
+    spec:
+      containers:
+      - name: api
+        image: ghcr.io/username/todo-api:latest
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: api-secrets
+              key: DATABASE_URL
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: api-secrets
+              key: JWT_SECRET
+        ports:
+        - containerPort: 4000
+        command: ["sh","-c","npx prisma migrate deploy && node dist/index.js"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-api
+  namespace: tauri-ww-todo
+spec:
+  ports:
+  - port: 4000
+    targetPort: 4000
+  selector:
+    app: todo-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-web
+  namespace: tauri-ww-todo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-web
+  template:
+    metadata:
+      labels:
+        app: todo-web
+    spec:
+      containers:
+      - name: web
+        image: ghcr.io/username/todo-web:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-web
+  namespace: tauri-ww-todo
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: todo-web
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todo-ingress
+  namespace: tauri-ww-todo
+spec:
+  rules:
+  - host: todo.octol.ing
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-web
+            port:
+              number: 80
+  - host: api.todo.octol.ing
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-api
+            port:
+              number: 4000

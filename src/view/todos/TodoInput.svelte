@@ -1,5 +1,6 @@
 <script lang="ts">
-  import {tabManager} from "../../lib/store/todos.ts";
+  import { tabManager } from "../../lib/store/todos.ts";
+import { createTodo } from "../../lib/remote";
 
   let todoTitle = "";
   let addButton;
@@ -9,20 +10,25 @@
     return true;
   };
 
-  const addTodo = () => {
+  const addTodo = async () => {
     todoTitle = todoTitle.trim();
     if (!todoTitle) return;
     setTimeout(() => addButton.blur(), 300);
-    tabManager.update((tm) => {
-      const todos = tm.tabs[tm.tabIndex].todos;
-      tm.tabs[tm.tabIndex].todos = [{
-        id: `${Date.now()}-${Math.floor(Math.random() * 1000000)}`,
-        text: todoTitle,
-        done: false
-      }, ...todos];
-      todoTitle = "";
-      return tm;
-    });
+    try {
+      const remote = await createTodo(todoTitle);
+      tabManager.update((tm) => {
+        const todos = tm.tabs[tm.tabIndex].todos;
+        tm.tabs[tm.tabIndex].todos = [{
+          id: remote.id.toString(),
+          text: remote.title,
+          done: remote.completed,
+        }, ...todos];
+        todoTitle = "";
+        return tm;
+      });
+    } catch (e) {
+      console.error("Failed to create todo", e);
+    }
   };
 </script>
 

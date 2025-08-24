@@ -1,5 +1,6 @@
 <script lang="ts">
-    import {tabManager} from "../../lib/store/todos";
+    import { tabManager } from "../../lib/store/todos";
+import { updateTodo, deleteTodo } from "../../lib/remote";
     import {writeText} from "@tauri-apps/api/clipboard";
     import Toast from "../Toast.svelte";
 
@@ -15,7 +16,7 @@
     let editTitle;
 
 
-    const toggleDone = () => {
+    const toggleDone = async () => {
         done = !done;
         checkbox.focus();
         tabManager.update((tm) => {
@@ -23,8 +24,10 @@
             if (index !== -1) {
                 tm.tabs[tm.tabIndex].todos[index].done = done;
             }
-            return {...tm};
+            return { ...tm };
         });
+        // backend sync (ignore errors silently to keep UX fast)
+        updateTodo(Number(id), done).catch((e) => console.error("toggle failed", e));
     };
 
     const onClickDelete = () => {
@@ -33,6 +36,8 @@
             tm.tabs[tm.tabIndex].todos = todos.filter((t) => t.id !== id);
             return tm;
         });
+        // backend or offline queue
+        deleteTodo(Number(id)).catch((e) => console.error('delete failed', e));
     };
 
     const focus = (e) => {
